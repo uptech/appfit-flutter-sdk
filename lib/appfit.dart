@@ -1,7 +1,5 @@
 library appfit;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:appfit/appfit_client.dart';
+export 'package:appfit/appfit_configuration.dart';
+export 'package:appfit/appfit_event.dart';

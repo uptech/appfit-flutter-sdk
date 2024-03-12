@@ -1,12 +1,20 @@
+import 'package:appfit/appfit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:appfit/appfit.dart';
-
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
+  test('AppFit Configuration', () {
+    final configuration = AppFitConfiguration(apiKey: 'key');
+    expect(configuration.apiKey, 'key');
+  });
+
+  test('AppFit Class', () {
+    final configuration = AppFitConfiguration(apiKey: 'key');
+    final appfit = AppFit(configuration: configuration);
+    expect(appfit.configuration.apiKey, 'key');
+  });
+
+  test('AppFit Event', () {
+    final event = AppFitEvent(name: 'event');
+    expect(event.name, 'event');
   });
 }
