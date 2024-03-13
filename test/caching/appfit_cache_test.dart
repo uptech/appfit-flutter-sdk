@@ -13,24 +13,20 @@ void main() {
     });
 
     test('verify the userId gets saved', () async {
-      cache.clear();
       await cache.setUserId('test');
 
       final userId = await cache.getUserId();
-      final anonymousId = await cache.getAnonymousId();
 
       expect(userId, 'test');
-      expect(anonymousId, isNull);
     });
 
     test('verify userId is null and an anonymousId is generated', () async {
-      cache.clear();
       await cache.setUserId(null);
 
       final userId = await cache.getUserId();
       final anonymousId = await cache.getAnonymousId();
 
-      expect(userId, null);
+      expect(userId, isNull);
       expect(anonymousId, isNotNull);
     });
   });

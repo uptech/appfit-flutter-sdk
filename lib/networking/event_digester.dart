@@ -29,7 +29,7 @@ class EventDigester {
     required this.projectId,
   }) {
     _apiClient = ApiClient(apiKey: apiKey, projectId: projectId);
-    _appFitCache.generateAnonymousId();
+    _appFitCache.generateOrGetAnonymousId();
 
     Timer.periodic(const Duration(minutes: 15), (timer) {
       _digestCache();
