@@ -23,35 +23,33 @@ void main() {
   final dioAdapter = DioAdapter(dio: dio);
   dio.httpClientAdapter = dioAdapter;
 
-  group('$ApiClient', () {
-    test('Successfully track event', () async {
-      dioAdapter.onPost(
-        'https://api.appfit.com/metric-events',
-        data: jsonEncode(event.toJson()),
-        (request) => request.reply(200, {'message': 'Success!'}),
-      );
-      final client = ApiClient(
-        apiKey: 'apiKey',
-        projectId: 'projectId',
-        dio: dio,
-      );
-      final result = await client.track(event);
-      expect(result, true);
-    });
+  test('$ApiClient Successfully track event', () async {
+    dioAdapter.onPost(
+      'https://api.appfit.com/metric-events',
+      data: jsonEncode(event.toJson()),
+      (request) => request.reply(200, {'message': 'Success!'}),
+    );
+    final client = ApiClient(
+      apiKey: 'apiKey',
+      projectId: 'projectId',
+      dio: dio,
+    );
+    final result = await client.track(event);
+    expect(result, true);
+  });
 
-    test('Unsuccessfully track event', () async {
-      dioAdapter.onPost(
-        'https://api.appfit.com/metric-events',
-        data: jsonEncode(event.toJson()),
-        (request) => request.reply(400, {'message': 'Bad Request!'}),
-      );
-      final client = ApiClient(
-        apiKey: 'apiKey',
-        projectId: 'projectId',
-        dio: dio,
-      );
-      final result = await client.track(event);
-      expect(result, false);
-    });
+  test('$ApiClient Unsuccessfully track event', () async {
+    dioAdapter.onPost(
+      'https://api.appfit.com/metric-events',
+      data: jsonEncode(event.toJson()),
+      (request) => request.reply(400, {'message': 'Bad Request!'}),
+    );
+    final client = ApiClient(
+      apiKey: 'apiKey',
+      projectId: 'projectId',
+      dio: dio,
+    );
+    final result = await client.track(event);
+    expect(result, false);
   });
 }
