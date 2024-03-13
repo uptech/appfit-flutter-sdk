@@ -34,13 +34,6 @@ class ApiClient {
   ///
   /// This will return `true` if the event was successfully tracked, and `false` otherwise.
   Future<bool> track(RawMetricEvent event) async {
-    final updatedMetricEvent = event.payload.copyWith(
-      projectId: projectId,
-    );
-    final updatedEvent = event.copyWith(
-      projectId: projectId,
-      payload: updatedMetricEvent,
-    );
     try {
       final response = await _dio.post(
         "$baseUrl/metric-events",
@@ -50,7 +43,7 @@ class ApiClient {
             HttpHeaders.contentTypeHeader: 'application/json',
           },
         ),
-        data: jsonEncode(updatedEvent.toJson()),
+        data: jsonEncode(event.toJson()),
       );
       if (response.statusCode == 200) {
         return true;
