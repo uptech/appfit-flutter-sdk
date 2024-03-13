@@ -1,7 +1,7 @@
 name: appfit
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+repository:
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

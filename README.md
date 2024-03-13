@@ -11,29 +11,18 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# AppFit for Flutter
+
+AppFit allows you to quickly, and easily track your analytic events from your apps. The Flutter SDK allows you to directly interface with AppFit.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+AppFit currenly supports Event Tracking. Other features will be coming soon.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
+To get started, simply follow the [Get Started](documentation/GET_STARTED.md) guide.
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+To find out more abuot AppFit, you can see more and find out about pricing by visiting [appfit.io](https://appfit.io)
