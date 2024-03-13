@@ -28,6 +28,10 @@ class AppFit {
       apiKey: configuration.apiKey,
       projectId: configuration.projectId,
     );
+    // Once we boot up the AppFit SDK, we need to generate an anonymousId
+    // and set the userId to null. This is to ensure that we have the most
+    // up-to-date information for the events.
+    _eventDigester.identify(null);
   }
 
   /// Tracks an event with the provided [eventName] and [eventProperties].
