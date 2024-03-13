@@ -25,7 +25,7 @@ void main() {
 
   test('$ApiClient Successfully track event', () async {
     dioAdapter.onPost(
-      'https://api.appfit.com/metric-events',
+      'https://api.appfit.io/metric-events',
       data: jsonEncode(event.toJson()),
       (request) => request.reply(200, {'message': 'Success!'}),
     );
@@ -40,7 +40,7 @@ void main() {
 
   test('$ApiClient Unsuccessfully track event', () async {
     dioAdapter.onPost(
-      'https://api.appfit.com/metric-events',
+      'https://api.appfit.io/metric-events',
       data: jsonEncode(event.toJson()),
       (request) => request.reply(400, {'message': 'Bad Request!'}),
     );

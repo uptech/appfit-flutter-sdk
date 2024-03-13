@@ -27,7 +27,7 @@ class ApiClient {
     required this.apiKey,
     required this.projectId,
     Dio? dio,
-  })  : baseUrl = baseUrl ?? 'https://api.appfit.com',
+  })  : baseUrl = baseUrl ?? 'https://api.appfit.io',
         _dio = dio ?? Dio();
 
   /// Tracks an event.
