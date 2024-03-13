@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:appfit/appfit.dart';
+import 'package:appfit/caching/appfit_cache.dart';
 import 'package:appfit/caching/event_cache.dart';
 import 'package:appfit/networking/api_client.dart';
 import 'package:appfit/networking/metric_event.dart';
@@ -16,6 +17,9 @@ class EventDigester {
   /// The cache for the events.
   final EventCache _cache = EventCache();
 
+  /// The cache for the AppFit SDK.
+  final AppFitCache _appFitCache = const AppFitCache();
+
   /// The API client for the AppFit dashboard.
   late ApiClient _apiClient;
 
@@ -25,6 +29,8 @@ class EventDigester {
     required this.projectId,
   }) {
     _apiClient = ApiClient(apiKey: apiKey, projectId: projectId);
+    _appFitCache.generateAnonymousId();
+
     Timer.periodic(const Duration(minutes: 15), (timer) {
       _digestCache();
     });
@@ -38,9 +44,19 @@ class EventDigester {
   /// otherwise it will be retried later.
   Future<void> digest(AppFitEvent event) async {
     _cache.add(event);
-    final result = await _apiClient.track(_createRawEvent(event));
+    final rawEvent = await _createRawEvent(event);
+    final result = await _apiClient.track(rawEvent);
     // If the network requests succeeds, remove the event from the cache
     if (result) _cache.removeBy(event);
+  }
+
+  /// Identifies the user with the provided [userId].
+  ///
+  /// This is used to identify the user in the AppFit dashboard.
+  /// When passing is `null`, the user will be un-identified,
+  /// resulting in the user being anonymous.
+  Future<void> identify(String? userId) async {
+    _appFitCache.setUserId(userId);
   }
 
   /// Digests the cache.
@@ -54,7 +70,9 @@ class EventDigester {
   }
 
   /// Creates a [RawMetricEvent] from the provided [event].
-  RawMetricEvent _createRawEvent(AppFitEvent event) {
+  Future<RawMetricEvent> _createRawEvent(AppFitEvent event) async {
+    final userId = await _appFitCache.getUserId();
+    final anonymousId = await _appFitCache.getAnonymousId();
     return RawMetricEvent(
       projectId: projectId,
       occurredAt: event.occurredAt,
@@ -63,7 +81,8 @@ class EventDigester {
         name: event.name,
         projectId: projectId,
         occurredAt: event.occurredAt,
-        anonymousId: '', // TODO: Figure out what this is supposed to be
+        userId: userId,
+        anonymousId: anonymousId,
         properties: event.properties,
       ),
     );
