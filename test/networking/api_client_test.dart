@@ -31,7 +31,6 @@ void main() {
     );
     final client = ApiClient(
       apiKey: 'apiKey',
-      projectId: 'projectId',
       dio: dio,
     );
     final result = await client.track(event);
@@ -46,7 +45,6 @@ void main() {
     );
     final client = ApiClient(
       apiKey: 'apiKey',
-      projectId: 'projectId',
       dio: dio,
     );
     final result = await client.track(event);
