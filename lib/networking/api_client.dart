@@ -38,7 +38,8 @@ class ApiClient {
         ),
         data: jsonEncode(event.toJson()),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == null) return false;
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return true;
       } else {
         return false;
