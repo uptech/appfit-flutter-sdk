@@ -34,14 +34,14 @@ class AppFit {
     _eventDigester.identify(null);
   }
 
-  /// Tracks an event with the provided [eventName] and [eventProperties].
+  /// Tracks an event with the provided [eventName] and [properties].
   ///
   /// This is used to track events in the AppFit dashboard.
   void trackEvent(
     String eventName, {
-    Map<String, String>? eventProperties,
+    Map<String, String>? properties,
   }) {
-    track(AppFitEvent(name: eventName, properties: eventProperties));
+    track(AppFitEvent(name: eventName, properties: properties));
   }
 
   /// Tracks an event with the provided [event].
