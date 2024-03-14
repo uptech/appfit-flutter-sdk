@@ -26,7 +26,6 @@ class AppFit {
   }) {
     _eventDigester = EventDigester(
       apiKey: configuration.apiKey,
-      projectId: configuration.projectId,
     );
     // Once we boot up the AppFit SDK, we need to generate an anonymousId
     // and set the userId to null. This is to ensure that we have the most

@@ -3,14 +3,11 @@ import 'package:appfit/networking/raw_metric_event.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final metricEvent = MetricEvent(
+  const metricEvent = MetricEvent(
     sourceEventId: 'eventId',
     name: 'event',
-    projectId: 'priojectId',
-    occurredAt: DateTime(DateTime.april),
   );
   final rawEvent = RawMetricEvent(
-    projectId: 'priojectId',
     occurredAt: DateTime(DateTime.april),
     payload: metricEvent,
   );
@@ -23,12 +20,10 @@ void main() {
   test('$RawMetricEvent Decoding', () {
     final json = {
       "eventSource": "appfit",
-      "projectId": "priojectId",
       "occurredAt": "2021-04-01T00:00:00.000",
       "payload": {
         "sourceEventId": "eventId",
         "name": "event",
-        "projectId": "priojectId",
         "eventSource": "appfit",
         "occurredAt": "2021-04-01T00:00:00.000",
         "properties": null,

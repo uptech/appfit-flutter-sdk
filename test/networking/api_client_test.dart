@@ -9,13 +9,10 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
   final event = RawMetricEvent(
-    projectId: 'projectId',
     occurredAt: DateTime(DateTime.april),
-    payload: MetricEvent(
+    payload: const MetricEvent(
       sourceEventId: 'eventId',
       name: 'event',
-      projectId: 'projectId',
-      occurredAt: DateTime(DateTime.april),
     ),
   );
 

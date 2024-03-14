@@ -7,14 +7,4 @@ void main() {
     final configuration = AppFitConfiguration(apiKey: apiKey);
     expect(configuration.apiKey, apiKey);
   });
-
-  test('$AppFitConfiguration Project Id Decoded', () {
-    final configuration = AppFitConfiguration(apiKey: apiKey);
-    expect(configuration.projectId, 'projectId');
-  });
-
-  test('$AppFitConfiguration Api Key Id Decoded', () {
-    final configuration = AppFitConfiguration(apiKey: apiKey);
-    expect(configuration.apiKeyId, 'apiKey');
-  });
 }

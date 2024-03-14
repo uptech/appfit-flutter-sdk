@@ -11,9 +11,6 @@ class EventDigester {
   /// The API key for the project.
   final String apiKey;
 
-  /// The unique identifier for the project.
-  final String projectId;
-
   /// The cache for the events.
   final EventCache _cache = EventCache();
 
@@ -26,7 +23,6 @@ class EventDigester {
   /// Initializes the [EventDigester] with the provided [apiKey] and [projectId].
   EventDigester({
     required this.apiKey,
-    required this.projectId,
   }) {
     _apiClient = ApiClient(apiKey: apiKey);
     _appFitCache.generateOrGetAnonymousId();
@@ -74,13 +70,10 @@ class EventDigester {
     final userId = await _appFitCache.getUserId();
     final anonymousId = await _appFitCache.getAnonymousId();
     return RawMetricEvent(
-      projectId: projectId,
       occurredAt: event.occurredAt,
       payload: MetricEvent(
         sourceEventId: event.id,
         name: event.name,
-        projectId: projectId,
-        occurredAt: event.occurredAt,
         userId: userId,
         anonymousId: anonymousId,
         properties: event.properties,

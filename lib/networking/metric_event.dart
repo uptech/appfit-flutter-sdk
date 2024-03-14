@@ -6,12 +6,6 @@ class MetricEvent {
   /// The name of the event.
   final String name;
 
-  /// The project identifier for the event.
-  final String projectId;
-
-  /// The time the event occurred.
-  final DateTime occurredAt;
-
   /// The user identifier for the event.
   /// Note: Either [userId] or [anonymousId] must be provided.
   final String? userId;
@@ -39,8 +33,6 @@ class MetricEvent {
   const MetricEvent({
     required this.sourceEventId,
     required this.name,
-    required this.projectId,
-    required this.occurredAt,
     this.userId,
     this.anonymousId,
     this.properties,
@@ -51,7 +43,6 @@ class MetricEvent {
   MetricEvent copyWith({
     String? sourceEventId,
     String? name,
-    String? projectId,
     DateTime? occurredAt,
     String? userId,
     String? anonymousId,
@@ -61,8 +52,6 @@ class MetricEvent {
     return MetricEvent(
       sourceEventId: sourceEventId ?? this.sourceEventId,
       name: name ?? this.name,
-      projectId: projectId ?? this.projectId,
-      occurredAt: occurredAt ?? this.occurredAt,
       userId: userId ?? this.userId,
       anonymousId: anonymousId ?? this.anonymousId,
       properties: properties ?? this.properties,
@@ -75,8 +64,6 @@ class MetricEvent {
     return MetricEvent(
       sourceEventId: json['sourceEventId'],
       name: json['name'],
-      projectId: json['projectId'],
-      occurredAt: DateTime.parse(json['occurredAt']),
       userId: json['userId'],
       anonymousId: json['anonymousId'],
       properties: json['properties'],
@@ -89,9 +76,6 @@ class MetricEvent {
     return {
       'sourceEventId': sourceEventId,
       'name': name,
-      'projectId': projectId,
-      'eventSource': 'appfit',
-      'occurredAt': occurredAt.toIso8601String(),
       'userId': userId,
       'anonymousId': anonymousId,
       'properties': properties,

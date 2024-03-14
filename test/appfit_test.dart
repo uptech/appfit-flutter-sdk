@@ -19,8 +19,6 @@ void main() {
       );
 
       expect(appfit.configuration.apiKey, apiKey);
-      expect(appfit.configuration.projectId, 'projectId');
-      expect(appfit.configuration.apiKeyId, 'apiKey');
     });
 
     test('event tracking', () {
