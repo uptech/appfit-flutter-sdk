@@ -1,7 +1,7 @@
 /// An event that is tracked by AppFit.
 class MetricEvent {
   /// The unique identifier for the event.
-  final String sourceEventId;
+  final String eventId;
 
   /// The name of the event.
   final String name;
@@ -31,7 +31,7 @@ class MetricEvent {
 
   /// Creates a new instance of [MetricEvent].
   const MetricEvent({
-    required this.sourceEventId,
+    required this.eventId,
     required this.name,
     this.userId,
     this.anonymousId,
@@ -41,7 +41,7 @@ class MetricEvent {
 
   /// Allows you to create a new instance of the [MetricEvent] with updated values.
   MetricEvent copyWith({
-    String? sourceEventId,
+    String? eventId,
     String? name,
     DateTime? occurredAt,
     String? userId,
@@ -50,7 +50,7 @@ class MetricEvent {
     Map<String, String>? systemProperties,
   }) {
     return MetricEvent(
-      sourceEventId: sourceEventId ?? this.sourceEventId,
+      eventId: eventId ?? this.eventId,
       name: name ?? this.name,
       userId: userId ?? this.userId,
       anonymousId: anonymousId ?? this.anonymousId,
@@ -62,7 +62,7 @@ class MetricEvent {
   /// Creates a new instance of [MetricEvent] from a JSON object.
   factory MetricEvent.fromJson(Map<String, dynamic> json) {
     return MetricEvent(
-      sourceEventId: json['sourceEventId'],
+      eventId: json['eventId'],
       name: json['name'],
       userId: json['userId'],
       anonymousId: json['anonymousId'],
@@ -74,7 +74,7 @@ class MetricEvent {
   /// Converts the [MetricEvent] to a JSON object.
   Map<String, dynamic> toJson() {
     return {
-      'sourceEventId': sourceEventId,
+      'eventId': eventId,
       'name': name,
       'userId': userId,
       'anonymousId': anonymousId,

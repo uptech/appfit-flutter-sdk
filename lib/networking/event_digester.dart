@@ -72,11 +72,12 @@ class EventDigester {
     return RawMetricEvent(
       occurredAt: event.occurredAt,
       payload: MetricEvent(
-        sourceEventId: event.id,
+        eventId: event.id,
         name: event.name,
         userId: userId,
         anonymousId: anonymousId,
         properties: event.properties,
+        systemProperties: null,
       ),
     );
   }

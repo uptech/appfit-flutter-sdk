@@ -11,7 +11,7 @@ void main() {
   final event = RawMetricEvent(
     occurredAt: DateTime(DateTime.april),
     payload: const MetricEvent(
-      sourceEventId: 'eventId',
+      eventId: 'eventId',
       name: 'event',
     ),
   );

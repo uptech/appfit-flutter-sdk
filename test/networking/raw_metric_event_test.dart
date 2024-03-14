@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const metricEvent = MetricEvent(
-    sourceEventId: 'eventId',
+    eventId: 'eventId',
     name: 'event',
   );
   final rawEvent = RawMetricEvent(
@@ -22,7 +22,7 @@ void main() {
       "eventSource": "appfit",
       "occurredAt": "2021-04-01T00:00:00.000",
       "payload": {
-        "sourceEventId": "eventId",
+        "eventId": "eventId",
         "name": "event",
         "eventSource": "appfit",
         "occurredAt": "2021-04-01T00:00:00.000",
