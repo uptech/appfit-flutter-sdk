@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:appfit/networking/api_client.dart';
+import 'package:appfit/networking/batch_metric_events.dart';
 import 'package:appfit/networking/metric_event.dart';
 import 'package:appfit/networking/raw_metric_event.dart';
 import 'package:dio/dio.dart';
@@ -46,5 +47,19 @@ void main() {
     );
     final result = await client.track(event);
     expect(result, false);
+  });
+
+  test('$ApiClient Successfully track batch events', () async {
+    dioAdapter.onPost(
+      'https://api.appfit.io/metric-events/batch',
+      data: jsonEncode(BatchRawMetricEvents(events: [event]).toJson()),
+      (request) => request.reply(200, {'message': 'Success!'}),
+    );
+    final client = ApiClient(
+      apiKey: 'apiKey',
+      dio: dio,
+    );
+    final result = await client.trackAll([event]);
+    expect(result, true);
   });
 }

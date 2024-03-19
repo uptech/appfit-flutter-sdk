@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:appfit/networking/batch_metric_events.dart';
 import 'package:appfit/networking/raw_metric_event.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -49,6 +50,43 @@ class ApiClient {
           },
         ),
         data: jsonEncode(event.toJson()),
+      );
+      if (response.statusCode == null) return false;
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // For now, we are just catching the error and returning false.
+      // Eventually, we should log the error and handle it better
+      return false;
+    }
+  }
+
+  /// Tracks events in a batch.
+  ///
+  /// This will return `true` if the events werwe successfully tracked, and `false` otherwise.
+  Future<bool> trackAll(List<RawMetricEvent> events) async {
+    try {
+      final data = jsonEncode(BatchRawMetricEvents(events: events).toJson());
+
+      // Check if we have internet, if we don't, we can't track the event
+      // so lets return false and let upstream handle it.
+      if (!kIsWeb) {
+        bool result = await _internetChecker.hasConnection;
+        if (result == false) return false;
+      }
+
+      final response = await _dio.post(
+        "$baseUrl/metric-events/batch",
+        options: Options(
+          headers: {
+            HttpHeaders.authorizationHeader: 'Basic $apiKey',
+            HttpHeaders.contentTypeHeader: 'application/json',
+          },
+        ),
+        data: data,
       );
       if (response.statusCode == null) return false;
       if (response.statusCode! >= 200 && response.statusCode! < 300) {

@@ -54,6 +54,29 @@ class EventDigester {
     }
   }
 
+  /// Digests the provided [events].
+  ///
+  /// This is used to digest the provided [events] and send it to the AppFit dashboard.
+  /// Before any event is sent to the AppFit dashboard, it is first added to the cache.
+  /// If the event is successfully sent to the AppFit dashboard, it is removed from the cache,
+  /// otherwise it will be retried later.
+  Future<void> batchDigest(List<AppFitEvent> events) async {
+    final rawEvents =
+        await Future.wait(events.map((e) async => await _createRawEvent(e)));
+    final result = await _apiClient.trackAll(rawEvents);
+
+    // If the network requests succeeds, remove the event from the cache
+    // otherwise, we want to add it to the cache
+    switch (result) {
+      case true:
+        _cache.clear();
+        break;
+      case false:
+        // For now, we need to do nothing.
+        break;
+    }
+  }
+
   /// Identifies the user with the provided [userId].
   ///
   /// This is used to identify the user in the AppFit dashboard.
@@ -67,10 +90,8 @@ class EventDigester {
   ///
   /// This is used to digest all of the events in the cache that might have failed,
   /// or are pending to be sent to the AppFit dashboard.
-  void _digestCache() {
-    _cache.entries.forEach((key, value) {
-      digest(value);
-    });
+  void _digestCache() async {
+    await batchDigest(_cache.entries.values.toList());
   }
 
   /// Creates a [RawMetricEvent] from the provided [event].
