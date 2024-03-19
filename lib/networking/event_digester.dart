@@ -39,11 +39,19 @@ class EventDigester {
   /// If the event is successfully sent to the AppFit dashboard, it is removed from the cache,
   /// otherwise it will be retried later.
   Future<void> digest(AppFitEvent event) async {
-    _cache.add(event);
     final rawEvent = await _createRawEvent(event);
     final result = await _apiClient.track(rawEvent);
+
     // If the network requests succeeds, remove the event from the cache
-    if (result) _cache.removeBy(event);
+    // otherwise, we want to add it to the cache
+    switch (result) {
+      case true:
+        _cache.removeBy(event);
+        break;
+      case false:
+        _cache.add(event);
+        break;
+    }
   }
 
   /// Identifies the user with the provided [userId].

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:appfit/networking/raw_metric_event.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 /// The API client for AppFit.
 class ApiClient {
@@ -14,6 +16,9 @@ class ApiClient {
 
   /// The Dio instance for making requests.
   final Dio _dio;
+
+  final InternetConnectionChecker _internetChecker =
+      InternetConnectionChecker();
 
   /// Creates a new instance of [ApiClient].
   ApiClient({
@@ -28,6 +33,13 @@ class ApiClient {
   /// This will return `true` if the event was successfully tracked, and `false` otherwise.
   Future<bool> track(RawMetricEvent event) async {
     try {
+      // Check if we have internet, if we don't, we can't track the event
+      // so lets return false and let upstream handle it.
+      if (!kIsWeb) {
+        bool result = await _internetChecker.hasConnection;
+        if (result == false) return false;
+      }
+
       final response = await _dio.post(
         "$baseUrl/metric-events",
         options: Options(
