@@ -55,7 +55,7 @@ class AppFit {
   /// This is used to identify the user in the AppFit dashboard.
   /// If the [userId] is `null`, the user will be un-identified,
   /// resulting in the user being anonymous.
-  void idendifyUser(String? userId) async {
+  void identifyUser(String? userId) async {
     await _eventDigester.identify(userId);
   }
 }

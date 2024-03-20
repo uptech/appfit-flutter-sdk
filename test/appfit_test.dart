@@ -44,7 +44,7 @@ void main() {
         configuration: AppFitConfiguration(apiKey: apiKey),
       );
 
-      appfit.idendifyUser('test');
+      appfit.identifyUser('test');
     });
 
     test('should identify a null userId', () {
@@ -52,7 +52,7 @@ void main() {
         configuration: AppFitConfiguration(apiKey: apiKey),
       );
 
-      appfit.idendifyUser(null);
+      appfit.identifyUser(null);
     });
   });
 }
