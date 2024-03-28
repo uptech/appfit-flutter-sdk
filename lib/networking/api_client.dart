@@ -18,8 +18,7 @@ class ApiClient {
   /// The Dio instance for making requests.
   final Dio _dio;
 
-  final InternetConnectionChecker _internetChecker =
-      InternetConnectionChecker();
+  InternetConnectionChecker? _internetChecker;
 
   /// Creates a new instance of [ApiClient].
   ApiClient({
@@ -27,7 +26,13 @@ class ApiClient {
     required this.apiKey,
     Dio? dio,
   })  : baseUrl = baseUrl ?? 'https://api.appfit.io',
-        _dio = dio ?? Dio();
+        _dio = dio ?? Dio() {
+    if (!kIsWeb) {
+      _internetChecker = InternetConnectionChecker();
+    } else {
+      _internetChecker = null;
+    }
+  }
 
   /// Tracks an event.
   ///
@@ -37,7 +42,8 @@ class ApiClient {
       // Check if we have internet, if we don't, we can't track the event
       // so lets return false and let upstream handle it.
       if (!kIsWeb) {
-        bool result = await _internetChecker.hasConnection;
+        if (_internetChecker == null) return false;
+        bool result = await _internetChecker!.hasConnection;
         if (result == false) return false;
       }
 
@@ -74,7 +80,8 @@ class ApiClient {
       // Check if we have internet, if we don't, we can't track the event
       // so lets return false and let upstream handle it.
       if (!kIsWeb) {
-        bool result = await _internetChecker.hasConnection;
+        if (_internetChecker == null) return false;
+        bool result = await _internetChecker!.hasConnection;
         if (result == false) return false;
       }
 
