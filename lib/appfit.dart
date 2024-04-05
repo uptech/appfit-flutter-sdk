@@ -38,7 +38,7 @@ class AppFit {
   /// This is used to track events in the AppFit dashboard.
   void trackEvent(
     String eventName, {
-    Map<String, String>? properties,
+    Map<String, dynamic>? properties,
   }) {
     track(AppFitEvent(name: eventName, properties: properties));
   }

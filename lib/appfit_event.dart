@@ -15,7 +15,7 @@ class AppFitEvent {
   final String name;
 
   /// The properties of the event.
-  final Map<String, String>? properties;
+  final Map<String, dynamic>? properties;
 
   /// The time the event occurred.
   late DateTime occurredAt;

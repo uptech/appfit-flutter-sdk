@@ -23,11 +23,11 @@ class MetricEvent {
   /// {
   ///  'count': '123',
   /// }
-  final Map<String, String>? properties;
+  final Map<String, dynamic>? properties;
 
   /// The system properties of the event.
   /// Note: These are automatically added by the SDK and should not be modified.
-  final Map<String, String>? systemProperties;
+  final Map<String, dynamic>? systemProperties;
 
   /// Creates a new instance of [MetricEvent].
   const MetricEvent({
