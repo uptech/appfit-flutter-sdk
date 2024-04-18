@@ -5,7 +5,7 @@ import 'package:appfit/networking/batch_metric_events.dart';
 import 'package:appfit/networking/raw_metric_event.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 /// The API client for AppFit.
 class ApiClient {
@@ -18,7 +18,7 @@ class ApiClient {
   /// The Dio instance for making requests.
   final Dio _dio;
 
-  InternetConnectionChecker? _internetChecker;
+  InternetConnection? _internetConnection;
 
   /// Creates a new instance of [ApiClient].
   ApiClient({
@@ -28,9 +28,13 @@ class ApiClient {
   })  : baseUrl = baseUrl ?? 'https://api.appfit.io',
         _dio = dio ?? Dio() {
     if (!kIsWeb) {
-      _internetChecker = InternetConnectionChecker();
+      _internetConnection = InternetConnection.createInstance(
+        customCheckOptions: [
+          InternetCheckOption(uri: Uri.parse(this.baseUrl)),
+        ],
+      );
     } else {
-      _internetChecker = null;
+      _internetConnection = null;
     }
   }
 
@@ -39,13 +43,8 @@ class ApiClient {
   /// This will return `true` if the event was successfully tracked, and `false` otherwise.
   Future<bool> track(RawMetricEvent event) async {
     try {
-      // Check if we have internet, if we don't, we can't track the event
-      // so lets return false and let upstream handle it.
-      if (!kIsWeb) {
-        if (_internetChecker == null) return false;
-        bool result = await _internetChecker!.hasConnection;
-        if (result == false) return false;
-      }
+      final hasInternet = await _hasInternet();
+      if (!hasInternet) return false;
 
       final response = await _dio.post(
         "$baseUrl/metric-events",
@@ -77,13 +76,8 @@ class ApiClient {
     try {
       final data = jsonEncode(BatchRawMetricEvents(events: events).toJson());
 
-      // Check if we have internet, if we don't, we can't track the event
-      // so lets return false and let upstream handle it.
-      if (!kIsWeb) {
-        if (_internetChecker == null) return false;
-        bool result = await _internetChecker!.hasConnection;
-        if (result == false) return false;
-      }
+      final hasInternet = await _hasInternet();
+      if (!hasInternet) return false;
 
       final response = await _dio.post(
         "$baseUrl/metric-events/batch",
@@ -106,5 +100,15 @@ class ApiClient {
       // Eventually, we should log the error and handle it better
       return false;
     }
+  }
+
+  Future<bool> _hasInternet() async {
+    // Check if we have internet, if we don't, we can't track the event
+    // so lets return false and let upstream handle it.
+    if (kIsWeb) {
+      return true;
+    }
+    if (_internetConnection == null) return false;
+    return await _internetConnection!.hasInternetAccess;
   }
 }
