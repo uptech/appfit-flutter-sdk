@@ -18,19 +18,23 @@ class AppFit {
   /// The configuration for the AppFit SDK.
   final AppFitConfiguration configuration;
 
-  late EventDigester _eventDigester;
+  /// The event digester for the AppFit SDK.
+  ///
+  /// This is exposed to allow for Testing overrides
+  /// This all.ows you to mock the EventDigester for testing purposes.
+  final EventDigester eventDigester;
 
-  /// Initializes the AppFit SDK with the provided [configuration].
+  /// Initializes the AppFit SDK with the provided [configuration] and optional
+  /// [eventDigester] for testing purposes.
   AppFit({
     required this.configuration,
-  }) {
-    _eventDigester = EventDigester(
-      apiKey: configuration.apiKey,
-    );
+    EventDigester? eventDigester,
+  }) : eventDigester =
+            eventDigester ?? EventDigester(apiKey: configuration.apiKey) {
     // Once we boot up the AppFit SDK, we need to generate an anonymousId
     // and set the userId to null. This is to ensure that we have the most
     // up-to-date information for the events.
-    _eventDigester.identify(null);
+    this.eventDigester.identify(null);
   }
 
   /// Tracks an event with the provided [eventName] and [properties].
@@ -47,7 +51,7 @@ class AppFit {
   ///
   /// This is used to track events in the AppFit dashboard.
   void track(AppFitEvent event) async {
-    await _eventDigester.digest(event);
+    await eventDigester.digest(event);
   }
 
   /// Identifies the user with the provided [userId].
@@ -56,6 +60,6 @@ class AppFit {
   /// If the [userId] is `null`, the user will be un-identified,
   /// resulting in the user being anonymous.
   void identifyUser(String? userId) async {
-    await _eventDigester.identify(userId);
+    await eventDigester.identify(userId);
   }
 }

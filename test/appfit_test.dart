@@ -1,5 +1,7 @@
 import 'package:appfit/appfit.dart';
+import 'package:appfit/networking/event_digester.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,4 +57,41 @@ void main() {
       appfit.identifyUser(null);
     });
   });
+
+  group('$AppFit Mocks -', () {
+    final mock = EventDigesterMock();
+    setUp(() async {
+      registerFallbackValue(FakeAppFitEvent());
+      when(() => mock.digest(any())).thenAnswer((_) async {});
+      when(() => mock.identify(any())).thenAnswer((_) async {});
+    });
+
+    test('event tracking', () {
+      final appfit = AppFit(
+        configuration: AppFitConfiguration(apiKey: apiKey),
+        eventDigester: mock,
+      );
+
+      final event = FakeAppFitEvent();
+
+      appfit.track(event);
+
+      verify(() => mock.digest(event)).called(1);
+    });
+
+    test('should identify a userId', () {
+      final appfit = AppFit(
+        configuration: AppFitConfiguration(apiKey: apiKey),
+        eventDigester: mock,
+      );
+
+      appfit.identifyUser('test');
+
+      verify(() => mock.identify('test')).called(1);
+    });
+  });
 }
+
+class EventDigesterMock extends Mock implements EventDigester {}
+
+class FakeAppFitEvent extends Fake implements AppFitEvent {}
