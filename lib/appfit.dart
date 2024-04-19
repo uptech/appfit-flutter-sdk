@@ -35,6 +35,11 @@ class AppFit {
     // and set the userId to null. This is to ensure that we have the most
     // up-to-date information for the events.
     this.eventDigester.identify(null);
+
+    // This is a unique event that is used specifically to track when the
+    // AppFit SDK has been initialized.
+    // This is an internal event.
+    trackEvent("appfit_sdk_initialized");
   }
 
   /// Tracks an event with the provided [eventName] and [properties].
@@ -61,5 +66,10 @@ class AppFit {
   /// resulting in the user being anonymous.
   void identifyUser(String? userId) async {
     await eventDigester.identify(userId);
+
+    // This is a unique event that is used specifically to track when the
+    // AppFit SDK has been identified a user
+    // This is an internal event.
+    trackEvent("appfit_user_identified");
   }
 }
