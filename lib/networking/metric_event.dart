@@ -74,6 +74,7 @@ class MetricEvent {
   /// Converts the [MetricEvent] to a JSON object.
   Map<String, dynamic> toJson() {
     return {
+      'origin': 'dart',
       'eventId': eventId,
       'name': name,
       'userId': userId,
