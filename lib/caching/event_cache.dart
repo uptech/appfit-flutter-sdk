@@ -62,7 +62,10 @@ class EventCache {
   /// This will remove all of the local cached events.
   void clear() async {
     _cache.clear();
-    await _save();
+
+    if (!kIsWeb) {
+      await _save();
+    }
   }
 
   Future<Map<String, AppFitEvent>> _read() async {
