@@ -74,7 +74,7 @@ void main() {
           name: 'unit_test',
           properties: const {'language': 'dart'},
           anonymousId: 'flutter_75fbf7a3-2197-4353-4a39-baedf4628c68',
-          systemProperties: null,
+          systemProperties: {'origin': 'flutter'},
         ),
       );
       final client = ApiClient(

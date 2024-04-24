@@ -19,7 +19,7 @@ void main() {
       "eventSource": "appfit",
       "occurredAt": "2021-04-01T00:00:00.000",
       "properties": null,
-      "systemProperties": null
+      "systemProperties": {'origin': 'flutter'}
     };
     final decoded = MetricEvent.fromJson(json);
     expect(decoded.name, 'event');
