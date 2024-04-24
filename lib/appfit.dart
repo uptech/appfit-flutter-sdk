@@ -1,6 +1,7 @@
 import 'package:appfit/appfit_configuration.dart';
 import 'package:appfit/appfit_event.dart';
 import 'package:appfit/networking/event_digester.dart';
+import 'package:flutter/foundation.dart';
 
 export 'package:appfit/appfit_configuration.dart';
 export 'package:appfit/appfit_event.dart';
@@ -22,6 +23,7 @@ class AppFit {
   ///
   /// This is exposed to allow for Testing overrides
   /// This all.ows you to mock the EventDigester for testing purposes.
+  @visibleForTesting
   final EventDigester eventDigester;
 
   /// Initializes the AppFit SDK with the provided [configuration] and optional
