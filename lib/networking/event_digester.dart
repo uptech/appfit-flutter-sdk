@@ -98,6 +98,14 @@ class EventDigester {
   Future<RawMetricEvent> _createRawEvent(AppFitEvent event) async {
     final userId = await _appFitCache.getUserId();
     final anonymousId = await _appFitCache.getAnonymousId();
+
+    // We are going to use the system properties to add the origin of the event.
+    // This will need to be reworked once we have the SDK actually
+    // fetching system properties
+    final systemProperties = {
+      'origin': 'flutter',
+    };
+
     return RawMetricEvent(
       occurredAt: event.occurredAt,
       payload: MetricEvent(
@@ -106,7 +114,7 @@ class EventDigester {
         userId: userId,
         anonymousId: anonymousId,
         properties: event.properties,
-        systemProperties: null,
+        systemProperties: systemProperties,
       ),
     );
   }
