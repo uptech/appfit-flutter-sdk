@@ -7,10 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class EventCache {
-  final Map<String, AppFitEvent> _cache = {};
+  final List<AppFitEvent> _cache = [];
 
   /// The entries in the cache.
-  Map<String, AppFitEvent> get entries => _cache;
+  List<AppFitEvent> get events => _cache;
 
   EventCache({
     Duration writeToDiskInterval = const Duration(minutes: 5),
@@ -37,25 +37,25 @@ class EventCache {
   /// and if it is found, it will remove the old event and add the new one.
   void add(AppFitEvent event) {
     // Determine if the event is already in the cache
-    if (_cache.containsKey(event.id)) {
+    if (_cache.where((e) => e.id == event.id).isNotEmpty) {
       // If it is, remove the old event and add the new one
       remove(event.id);
     }
-    _cache[event.id] = event;
+    _cache.add(event);
   }
 
   /// Removes the event with the provided [id] from the cache.
   /// This is used to remove events that have been successfully posted to the network.
   /// This will do a lookup in the cache to find the event that matches the provided [id].
   void remove(String id) {
-    _cache.remove(id);
+    _cache.removeWhere((event) => event.id == id);
   }
 
   /// Removes the event with the provided [event] from the cache.
   /// This is used to remove events that have been successfully posted to the network.
   /// This will do a lookup in the cache to find the event that matches the provided [event].
   void removeBy(AppFitEvent event) {
-    _cache.removeWhere((key, val) => val == event);
+    remove(event.id);
   }
 
   /// Clears the cache.
@@ -68,7 +68,7 @@ class EventCache {
     }
   }
 
-  Future<Map<String, AppFitEvent>> _read() async {
+  Future<List<AppFitEvent>> _read() async {
     // Read from disk
     return await _readDataFromDisk();
   }
@@ -78,26 +78,26 @@ class EventCache {
     await _writeDataToDisk();
   }
 
-  Future<Map<String, AppFitEvent>> _readDataFromDisk() async {
+  Future<List<AppFitEvent>> _readDataFromDisk() async {
     // Read the data from disk
     final File file = await _getCacheFile();
     if (await file.exists()) {
       final String data = await file.readAsString();
-      if (data.isEmpty) return {};
+      if (data.isEmpty) return [];
       final List<dynamic> decoded = jsonDecode(data);
-      final Map<String, AppFitEvent> events = {};
+      final List<AppFitEvent> events = [];
       for (final Map<String, dynamic> event in decoded) {
-        events[event['id']] = AppFitEvent.fromJson(event);
+        events.add(AppFitEvent.fromJson(event));
       }
       return events;
     }
-    return {};
+    return [];
   }
 
   Future<void> _writeDataToDisk() async {
     final File file = await _getCacheFile();
     final List<Map<String, dynamic>> data =
-        _cache.values.map((e) => e.toJson()).toList();
+        _cache.map((e) => e.toJson()).toList();
     await file.writeAsString(jsonEncode(data));
   }
 

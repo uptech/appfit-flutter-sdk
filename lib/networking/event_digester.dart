@@ -25,7 +25,6 @@ class EventDigester {
     required this.apiKey,
   }) {
     _apiClient = ApiClient(apiKey: apiKey);
-    _appFitCache.generateOrGetAnonymousId();
 
     Timer.periodic(const Duration(minutes: 15), (timer) {
       _digestCache();
@@ -46,7 +45,7 @@ class EventDigester {
     // otherwise, we want to add it to the cache
     switch (result) {
       case true:
-        _cache.removeBy(event);
+        // For now, so nothing
         break;
       case false:
         _cache.add(event);
@@ -91,7 +90,7 @@ class EventDigester {
   /// This is used to digest all of the events in the cache that might have failed,
   /// or are pending to be sent to the AppFit dashboard.
   void _digestCache() async {
-    await batchDigest(_cache.entries.values.toList());
+    await batchDigest(_cache.events);
   }
 
   /// Creates a [RawMetricEvent] from the provided [event].

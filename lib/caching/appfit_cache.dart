@@ -25,7 +25,6 @@ class AppFitCache {
     final sharedPreferences = await SharedPreferences.getInstance();
     if (userId == null) {
       await sharedPreferences.remove(_AppFitCacheKey.userId.name);
-      await generateOrGetAnonymousId();
       return;
     }
     await sharedPreferences.setString(_AppFitCacheKey.userId.name, userId);
@@ -37,24 +36,21 @@ class AppFitCache {
     return sharedPreferences.getString(_AppFitCacheKey.userId.name);
   }
 
-  /// Generates an anonymous id if it does not exist.
+  /// Returns the [anonymousId] from the cache.
+  ///
+  /// This Generates an anonymous id if one does not exist.
   /// This is used to identify the user in the AppFit dashboard.
   /// This checks to see if a `userId` exists, if it does not, it will generate an anonymous id.
-  Future<String> generateOrGetAnonymousId() async {
-    final anonymousId = await getAnonymousId();
-    if (anonymousId != null) return anonymousId;
+  Future<String?> getAnonymousId() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final currentId =
+        sharedPreferences.getString(_AppFitCacheKey.anonymousId.name);
+    if (currentId != null) return currentId;
 
     // If we dont have an anonymousId, we need to generate one.
-    final sharedPreferences = await SharedPreferences.getInstance();
     final id = const Uuid().v4();
     await sharedPreferences.setString(_AppFitCacheKey.anonymousId.name, id);
     return id;
-  }
-
-  /// Returns the [anonymousId] from the cache.
-  Future<String?> getAnonymousId() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString(_AppFitCacheKey.anonymousId.name);
   }
 
   /// Clears the cache.

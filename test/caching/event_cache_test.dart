@@ -22,7 +22,7 @@ void main() {
       final event = AppFitEvent(name: 'event');
       cache.add(event);
 
-      expect(cache.entries.length, 1);
+      expect(cache.events.length, 1);
     });
 
     test('write multiple to disk', () {
@@ -36,7 +36,7 @@ void main() {
       cache.add(AppFitEvent(name: 'event 3'));
       cache.add(AppFitEvent(name: 'event 4'));
 
-      expect(cache.entries.length, 4);
+      expect(cache.events.length, 4);
     });
 
     test('remove from disk by event', () {
@@ -49,7 +49,7 @@ void main() {
       cache.add(event);
       cache.removeBy(event);
 
-      expect(cache.entries.length, 0);
+      expect(cache.events.length, 0);
     });
 
     test('remove from disk by key', () {
@@ -62,7 +62,7 @@ void main() {
       cache.add(event);
       cache.remove(event.id);
 
-      expect(cache.entries.length, 0);
+      expect(cache.events.length, 0);
     });
   });
 }
