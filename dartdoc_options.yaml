@@ -1,12 +1,4 @@
 dartdoc:
-  categories:
-    "Get Started":
-      markdown: documentation/GET_STARTED.md
-      name: Get Started
-    "Tracking":
-      markdown: documentation/TRACKING.md
-      name: Tracking
-  categoryOrder: ["Get Started", "Second Category"]
   nodoc:
     - "lib/networking/*.dart"
     - "lib/caching/*.dart"
