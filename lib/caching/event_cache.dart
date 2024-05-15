@@ -1,16 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:appfit/appfit.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'disk_cache.dart' if (dart.library.html) 'disk_cache_web.dart';
 
 class EventCache {
   final List<AppFitEvent> _cache = [];
 
   /// The entries in the cache.
   List<AppFitEvent> get events => _cache;
+
+  final diskCache = DiskCache();
 
   EventCache({
     Duration writeToDiskInterval = const Duration(minutes: 5),
@@ -70,43 +71,11 @@ class EventCache {
 
   Future<List<AppFitEvent>> _read() async {
     // Read from disk
-    return await _readDataFromDisk();
+    return await diskCache.readDataFromDisk();
   }
 
   Future<void> _save() async {
     // Save the cache to disk
-    await _writeDataToDisk();
-  }
-
-  Future<List<AppFitEvent>> _readDataFromDisk() async {
-    // Read the data from disk
-    final File file = await _getCacheFile();
-    if (await file.exists()) {
-      final String data = await file.readAsString();
-      if (data.isEmpty) return [];
-      final List<dynamic> decoded = jsonDecode(data);
-      final List<AppFitEvent> events = [];
-      for (final Map<String, dynamic> event in decoded) {
-        events.add(AppFitEvent.fromJson(event));
-      }
-      return events;
-    }
-    return [];
-  }
-
-  Future<void> _writeDataToDisk() async {
-    final File file = await _getCacheFile();
-    final List<Map<String, dynamic>> data =
-        _cache.map((e) => e.toJson()).toList();
-    await file.writeAsString(jsonEncode(data));
-  }
-
-  Future<File> _getCacheFile() async {
-    final Directory documents = await getApplicationDocumentsDirectory();
-    final Directory appfit = Directory('${documents.path}/appfit');
-    if (!await appfit.exists()) {
-      await appfit.create();
-    }
-    return File('${documents.path}/appfit/cache.af');
+    await diskCache.writeDataToDisk(_cache);
   }
 }
