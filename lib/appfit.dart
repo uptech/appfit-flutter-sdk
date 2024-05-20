@@ -16,6 +16,17 @@ export 'package:appfit/appfit_event.dart';
 /// ```
 /// {@category Tracking}
 class AppFit {
+  static Map<String, AppFit>? _instances;
+
+  static AppFit getInstance({
+    required AppFitConfiguration configuration,
+    String instanceName = "default",
+  }) {
+    _instances ??= <String, AppFit>{};
+    return _instances!
+        .putIfAbsent(instanceName, () => AppFit(configuration: configuration));
+  }
+
   /// The configuration for the AppFit SDK.
   final AppFitConfiguration configuration;
 
