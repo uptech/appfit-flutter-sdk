@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:appfit/appfit.dart';
 import 'package:appfit/networking/event_digester.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -55,6 +57,47 @@ void main() {
       );
 
       appfit.identifyUser(null);
+    });
+  });
+
+  group('$AppFit Shared -', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await SharedPreferences.getInstance();
+
+      PathProviderPlatform.instance = MockPathProviderPlatform();
+      // This is required because we manually register the Linux path provider when on the Linux platform.
+      // Will be removed when automatic registration of dart plugins is implemented.
+      // See this issue https://github.com/flutter/flutter/issues/52267 for details
+      disablePathProviderPlatformOverride = true;
+
+      // The base 64 key is 'default:instance'
+      AppFit.createInstance(
+        configuration: AppFitConfiguration(apiKey: 'ZGVmYXVsdDppbnN0YW5jZQ=='),
+        instanceName: 'default',
+      );
+
+      // The base 64 key is 'one:instance'
+      AppFit.createInstance(
+        configuration: AppFitConfiguration(apiKey: 'b25lOmluc3RhbmNl'),
+        instanceName: 'one',
+      );
+    });
+
+    test('default validation', () {
+      final defaultInstance = AppFit.getInstance();
+      final apiKey = defaultInstance.configuration.apiKey;
+      final decodedKey = utf8.decode(base64.decode(apiKey));
+
+      expect(decodedKey, 'default:instance');
+    });
+
+    test('additional instance validation', () {
+      final defaultInstance = AppFit.getInstance(instanceName: 'one');
+      final apiKey = defaultInstance.configuration.apiKey;
+      final decodedKey = utf8.decode(base64.decode(apiKey));
+
+      expect(decodedKey, 'one:instance');
     });
   });
 

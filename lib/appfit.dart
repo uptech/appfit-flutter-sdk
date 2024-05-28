@@ -18,13 +18,22 @@ export 'package:appfit/appfit_event.dart';
 class AppFit {
   static Map<String, AppFit>? _instances;
 
-  static AppFit getInstance({
+  static AppFit createInstance({
     required AppFitConfiguration configuration,
     String instanceName = "default",
   }) {
     _instances ??= <String, AppFit>{};
-    return _instances!
-        .putIfAbsent(instanceName, () => AppFit(configuration: configuration));
+    return _instances!.putIfAbsent(
+      instanceName,
+      () => AppFit(configuration: configuration),
+    );
+  }
+
+  static AppFit getInstance({
+    String instanceName = "default",
+  }) {
+    _instances ??= <String, AppFit>{};
+    return _instances![instanceName]!;
   }
 
   /// The configuration for the AppFit SDK.
