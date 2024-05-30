@@ -234,6 +234,40 @@ appfit.trackEvent('event');
   </section>
     
     
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="createInstance" class="callable">
+  <span class="name"><a href="../appfit/AppFit/createInstance.html">createInstance</a></span><span class="signature">(<wbr><span class="parameter" id="createInstance-param-configuration">{<span>required</span> <span class="type-annotation"><a href="../appfit_configuration/AppFitConfiguration-class.html">AppFitConfiguration</a></span> <span class="parameter-name">configuration</span>, </span><span class="parameter" id="createInstance-param-instanceName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">instanceName</span> = <span class="default-value">&quot;default&quot;</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="../appfit/AppFit-class.html">AppFit</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Create a new shared instance of the AppFit SDK with the provided
+<code>configuration</code> and optional <code>instanceName</code>.
+  
+
+</dd>
+
+        <dt id="getInstance" class="callable">
+  <span class="name"><a href="../appfit/AppFit/getInstance.html">getInstance</a></span><span class="signature">(<wbr><span class="parameter" id="getInstance-param-instanceName">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">instanceName</span> = <span class="default-value">&quot;default&quot;</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="../appfit/AppFit-class.html">AppFit</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Retrieve the shared instance of the AppFit SDK with the provided
+<code>instanceName</code>.
+If no <code>instanceName</code> is provided, the default instance will be returned.
+  
+
+</dd>
+
+    </dl>
+  </section>
     
 
 
@@ -266,7 +300,7 @@ appfit.trackEvent('event');
 <footer>
   <span class="no-break">
     appfit
-      1.0.0
+      1.0.1
   </span>
 
   

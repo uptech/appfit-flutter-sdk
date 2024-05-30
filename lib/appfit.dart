@@ -18,6 +18,17 @@ export 'package:appfit/appfit_event.dart';
 class AppFit {
   static Map<String, AppFit>? _instances;
 
+  /// Create a new shared instance of the AppFit SDK with the provided
+  /// [configuration] and optional [instanceName].
+  ///
+  /// If no [instanceName] is provided, the default instance will be created.
+  /// ```dart
+  /// final appfit = AppFit.createInstance(configuration: configuration);
+  /// ```
+  ///
+  /// The instance can be retrieved using the [getInstance] method below.
+  ///
+  /// {@category Initialization}
   static AppFit createInstance({
     required AppFitConfiguration configuration,
     String instanceName = "default",
@@ -29,6 +40,15 @@ class AppFit {
     );
   }
 
+  /// Retrieve the shared instance of the AppFit SDK with the provided
+  /// [instanceName].
+  /// If no [instanceName] is provided, the default instance will be returned.
+  /// ```dart
+  /// final appfit = AppFit.getInstance();
+  /// ```
+  /// Note: If an instance is not configured before calling this method,
+  /// an exception will be thrown.
+  /// {@category Initialization}
   static AppFit getInstance({
     String instanceName = "default",
   }) {
