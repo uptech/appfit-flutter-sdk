@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:appfit/networking/batch_metric_events.dart';
-import 'package:appfit/networking/raw_metric_event.dart';
+import 'package:appfit/networking/metric_event.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -40,7 +40,7 @@ class ApiClient {
   /// Tracks an event.
   ///
   /// This will return `true` if the event was successfully tracked, and `false` otherwise.
-  Future<bool> track(RawMetricEvent event) async {
+  Future<bool> track(MetricEvent event) async {
     try {
       final hasInternet = await _hasInternet();
       if (!hasInternet) return false;
@@ -66,9 +66,9 @@ class ApiClient {
   /// Tracks events in a batch.
   ///
   /// This will return `true` if the events werwe successfully tracked, and `false` otherwise.
-  Future<bool> trackAll(List<RawMetricEvent> events) async {
+  Future<bool> trackAll(List<MetricEvent> events) async {
     try {
-      final data = jsonEncode(BatchRawMetricEvents(events: events).toJson());
+      final data = jsonEncode(BatchMetricEvents(events: events).toJson());
 
       final hasInternet = await _hasInternet();
       if (!hasInternet) return false;

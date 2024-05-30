@@ -5,7 +5,7 @@ import 'package:appfit/caching/appfit_cache.dart';
 import 'package:appfit/caching/event_cache.dart';
 import 'package:appfit/networking/api_client.dart';
 import 'package:appfit/networking/metric_event.dart';
-import 'package:appfit/networking/raw_metric_event.dart';
+import 'package:appfit/networking/metric_payload.dart';
 
 class EventDigester {
   /// The API key for the project.
@@ -93,8 +93,8 @@ class EventDigester {
     await batchDigest(_cache.events);
   }
 
-  /// Creates a [RawMetricEvent] from the provided [event].
-  Future<RawMetricEvent> _createRawEvent(AppFitEvent event) async {
+  /// Creates a [MetricEvent] from the provided [event].
+  Future<MetricEvent> _createRawEvent(AppFitEvent event) async {
     final userId = await _appFitCache.getUserId();
     final anonymousId = await _appFitCache.getAnonymousId();
 
@@ -105,11 +105,11 @@ class EventDigester {
       'origin': 'flutter',
     };
 
-    return RawMetricEvent(
+    return MetricEvent(
       occurredAt: event.occurredAt,
-      payload: MetricEvent(
-        eventId: event.id,
-        name: event.name,
+      payload: MetricPayload(
+        sourceEventId: event.id,
+        eventName: event.name,
         userId: userId,
         anonymousId: anonymousId,
         properties: event.properties,

@@ -1,85 +1,61 @@
-/// An event that is tracked by AppFit.
+import 'package:appfit/networking/metric_payload.dart';
+
+/// A raw metric event.
+///
+/// THis is the root object of the data that is sent to the AppFit API.
 class MetricEvent {
-  /// The unique identifier for the event.
-  final String eventId;
-
-  /// The name of the event.
-  final String name;
-
-  /// The user identifier for the event.
-  /// Note: Either [userId] or [anonymousId] must be provided.
-  final String? userId;
-
-  /// The anonymous identifier for the event.
-  /// Note: Either [userId] or [anonymousId] must be provided.
-  final String? anonymousId;
-
-  /// The properties of the event.
+  /// The time the event occurred.
   ///
-  /// These are the custom properties of the event. These must be string-based
-  /// key-value pairs.
-  /// example:
-  /// ```dart
-  /// {
-  ///  'count': '123',
-  /// }
-  final Map<String, dynamic>? properties;
+  /// This is a UTC timestamp.
+  final DateTime occurredAt;
 
-  /// The system properties of the event.
-  /// Note: These are automatically added by the SDK and should not be modified.
-  final Map<String, dynamic>? systemProperties;
+  /// The event payload.
+  ///
+  /// This is the event that is tracked by AppFit.
+  /// ```dart
+  /// final payload = MetricPayload(
+  ///   sourceEventId: 'event_id', // This is the unique identifier for the event,
+  ///   eventName: 'event', // This is the name of the event,
+  ///   occurredAt: DateTime.now(), // This is the time the event occurred,
+  ///   userId: 'user_id', // This is the user identifier for the event,
+  ///   anonymousId: 'anonymous_id', // This is the anonymous identifier for the event,
+  ///   properties: {'key': 'value'}, // These are the properties of the event
+  /// )
+  /// ```
+  final MetricPayload payload;
 
   /// Creates a new instance of [MetricEvent].
   const MetricEvent({
-    required this.eventId,
-    required this.name,
-    this.userId,
-    this.anonymousId,
-    this.properties,
-    this.systemProperties,
+    required this.occurredAt,
+    required this.payload,
   });
 
   /// Allows you to create a new instance of the [MetricEvent] with updated values.
   MetricEvent copyWith({
-    String? eventId,
-    String? name,
+    String? projectId,
     DateTime? occurredAt,
-    String? userId,
-    String? anonymousId,
-    Map<String, String>? properties,
-    Map<String, String>? systemProperties,
+    MetricPayload? payload,
   }) {
     return MetricEvent(
-      eventId: eventId ?? this.eventId,
-      name: name ?? this.name,
-      userId: userId ?? this.userId,
-      anonymousId: anonymousId ?? this.anonymousId,
-      properties: properties ?? this.properties,
-      systemProperties: systemProperties ?? this.systemProperties,
+      occurredAt: occurredAt ?? this.occurredAt,
+      payload: payload ?? this.payload,
     );
   }
 
   /// Creates a new instance of [MetricEvent] from a JSON object.
   factory MetricEvent.fromJson(Map<String, dynamic> json) {
     return MetricEvent(
-      eventId: json['eventId'],
-      name: json['name'],
-      userId: json['userId'],
-      anonymousId: json['anonymousId'],
-      properties: json['properties'],
-      systemProperties: json['systemProperties'],
+      occurredAt: DateTime.parse(json['occurredAt']),
+      payload: MetricPayload.fromJson(json['payload']),
     );
   }
 
   /// Converts the [MetricEvent] to a JSON object.
   Map<String, dynamic> toJson() {
     return {
-      'eventId': eventId,
-      'name': name,
-      'userId': userId,
-      'anonymousId': anonymousId,
-      'properties': properties,
-      'systemProperties': systemProperties,
+      'eventSource': 'appfit',
+      'occurredAt': occurredAt.toIso8601String(),
+      'payload': payload.toJson(),
     };
   }
 }

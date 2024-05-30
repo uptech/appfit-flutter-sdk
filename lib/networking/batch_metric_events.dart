@@ -1,14 +1,14 @@
-import 'package:appfit/networking/raw_metric_event.dart';
+import 'package:appfit/networking/metric_event.dart';
 
-class BatchRawMetricEvents {
-  final List<RawMetricEvent> events;
+class BatchMetricEvents {
+  final List<MetricEvent> events;
 
-  BatchRawMetricEvents({required this.events});
+  BatchMetricEvents({required this.events});
 
-  factory BatchRawMetricEvents.fromJson(Map<String, dynamic> json) {
-    return BatchRawMetricEvents(
+  factory BatchMetricEvents.fromJson(Map<String, dynamic> json) {
+    return BatchMetricEvents(
       events: (json['events'] as List)
-          .map((e) => RawMetricEvent.fromJson(e as Map<String, dynamic>))
+          .map((e) => MetricEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }

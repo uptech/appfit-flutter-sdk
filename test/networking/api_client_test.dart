@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:appfit/networking/api_client.dart';
 import 'package:appfit/networking/batch_metric_events.dart';
 import 'package:appfit/networking/metric_event.dart';
-import 'package:appfit/networking/raw_metric_event.dart';
+import 'package:appfit/networking/metric_payload.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -11,11 +11,11 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('$ApiClient Mock Tests -', () {
-    final event = RawMetricEvent(
+    final event = MetricEvent(
       occurredAt: DateTime(DateTime.april),
-      payload: const MetricEvent(
-        eventId: 'eventId',
-        name: 'event',
+      payload: const MetricPayload(
+        sourceEventId: 'eventId',
+        eventName: 'event',
       ),
     );
 
@@ -53,7 +53,7 @@ void main() {
     test('Successfully track batch events', () async {
       dioAdapter.onPost(
         'https://api.appfit.io/metric-events/batch',
-        data: jsonEncode(BatchRawMetricEvents(events: [event]).toJson()),
+        data: jsonEncode(BatchMetricEvents(events: [event]).toJson()),
         (request) => request.reply(200, {'message': 'Success!'}),
       );
       final client = ApiClient(
@@ -67,11 +67,11 @@ void main() {
 
   group('$ApiClient Live Tests -', () {
     test('Successfully track event', () async {
-      final event = RawMetricEvent(
+      final event = MetricEvent(
         occurredAt: DateTime.now(),
-        payload: MetricEvent(
-          eventId: const Uuid().v4(),
-          name: 'unit_test',
+        payload: MetricPayload(
+          sourceEventId: const Uuid().v4(),
+          eventName: 'unit_test',
           properties: const {'language': 'dart'},
           anonymousId: 'flutter_75fbf7a3-2197-4353-4a39-baedf4628c68',
           systemProperties: {'origin': 'flutter'},
