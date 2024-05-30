@@ -1,3 +1,9 @@
+## 1.0.2
+
+### Changed
+
+- Cleaned up errors in the project surounding dev dependencies
+
 ## 1.0.1
 
 ### Added
