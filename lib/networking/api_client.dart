@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:appfit/networking/batch_metric_events.dart';
 import 'package:appfit/networking/raw_metric_event.dart';
@@ -48,12 +47,7 @@ class ApiClient {
 
       final response = await _dio.post(
         "$baseUrl/metric-events",
-        options: Options(
-          headers: {
-            HttpHeaders.authorizationHeader: 'Basic $apiKey',
-            HttpHeaders.contentTypeHeader: 'application/json',
-          },
-        ),
+        options: Options(headers: _headers),
         data: jsonEncode(event.toJson()),
       );
       if (response.statusCode == null) return false;
@@ -81,12 +75,7 @@ class ApiClient {
 
       final response = await _dio.post(
         "$baseUrl/metric-events/batch",
-        options: Options(
-          headers: {
-            HttpHeaders.authorizationHeader: 'Basic $apiKey',
-            HttpHeaders.contentTypeHeader: 'application/json',
-          },
-        ),
+        options: Options(headers: _headers),
         data: data,
       );
       if (response.statusCode == null) return false;
@@ -110,5 +99,12 @@ class ApiClient {
     }
     if (_internetConnection == null) return false;
     return await _internetConnection!.hasInternetAccess;
+  }
+
+  Map<String, String> get _headers {
+    return {
+      'Authorization': 'Basic $apiKey',
+      'Content-Type': 'application/json'
+    };
   }
 }
