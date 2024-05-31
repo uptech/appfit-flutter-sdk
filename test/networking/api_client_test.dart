@@ -9,6 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../mocks/system_manager_mocks.dart';
+
 void main() {
   group('$ApiClient Mock Tests -', () {
     final event = MetricEvent(
@@ -50,6 +52,7 @@ void main() {
       final result = await client.track(event);
       expect(result, false);
     });
+
     test('Successfully track batch events', () async {
       dioAdapter.onPost(
         'https://api.appfit.io/metric-events/batch',
@@ -66,6 +69,12 @@ void main() {
   });
 
   group('$ApiClient Live Tests -', () {
+    final systemManager = MockSystemManager();
+
+    setUp(() async {
+      systemManager.macOS();
+    });
+
     test('Successfully track event', () async {
       final event = MetricEvent(
         occurredAt: DateTime.now(),
@@ -74,9 +83,10 @@ void main() {
           eventName: 'unit_test',
           properties: const {'language': 'dart'},
           anonymousId: 'flutter_75fbf7a3-2197-4353-4a39-baedf4628c68',
-          systemProperties: {'origin': 'flutter'},
+          systemProperties: await systemManager.current(),
         ),
       );
+      print("Event: ${event.toJson()}");
       final client = ApiClient(
         apiKey:
             'YjZiODczMjItNTAwNC00YTg5LTg2ZTUtOWI3OWE5ZDA5Mjc3OmQ3OGMyMjVhLTc1YzQtNDY5ZC1iZTk5LTY3ZTZiMWM1ZDI5YQ==',

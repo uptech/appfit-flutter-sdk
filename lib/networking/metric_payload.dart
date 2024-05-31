@@ -1,3 +1,5 @@
+import 'package:appfit/networking/properties/event_system_properties.dart';
+
 /// An event that is tracked by AppFit.
 class MetricPayload {
   /// The unique identifier for the event.
@@ -27,7 +29,7 @@ class MetricPayload {
 
   /// The system properties of the event.
   /// Note: These are automatically added by the SDK and should not be modified.
-  final Map<String, dynamic>? systemProperties;
+  final EventSystemProperties? systemProperties;
 
   /// Creates a new instance of [MetricPayload].
   const MetricPayload({
@@ -47,7 +49,6 @@ class MetricPayload {
     String? userId,
     String? anonymousId,
     Map<String, String>? properties,
-    Map<String, String>? systemProperties,
   }) {
     return MetricPayload(
       sourceEventId: sourceEventId ?? this.sourceEventId,
@@ -55,7 +56,7 @@ class MetricPayload {
       userId: userId ?? this.userId,
       anonymousId: anonymousId ?? this.anonymousId,
       properties: properties ?? this.properties,
-      systemProperties: systemProperties ?? this.systemProperties,
+      systemProperties: systemProperties,
     );
   }
 
@@ -67,7 +68,9 @@ class MetricPayload {
       userId: json['userId'],
       anonymousId: json['anonymousId'],
       properties: json['properties'],
-      systemProperties: json['systemProperties'],
+      systemProperties: json['systemProperties'] != null
+          ? EventSystemProperties.fromJson(json['systemProperties'])
+          : null,
     );
   }
 
@@ -81,7 +84,7 @@ class MetricPayload {
       'userId': userId,
       'anonymousId': anonymousId,
       'properties': properties,
-      'systemProperties': systemProperties,
+      'systemProperties': systemProperties?.toJson(),
     };
   }
 }

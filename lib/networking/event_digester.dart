@@ -4,6 +4,7 @@ import 'package:appfit/appfit.dart';
 import 'package:appfit/caching/appfit_cache.dart';
 import 'package:appfit/caching/event_cache.dart';
 import 'package:appfit/networking/api_client.dart';
+import 'package:appfit/networking/managers/system_manager.dart';
 import 'package:appfit/networking/metric_event.dart';
 import 'package:appfit/networking/metric_payload.dart';
 
@@ -16,6 +17,11 @@ class EventDigester {
 
   /// The cache for the AppFit SDK.
   final AppFitCache _appFitCache = const AppFitCache();
+
+  /// The system manager for the AppFit SDK.
+  /// This is used to get the current system properties.
+  /// such as the device model, manufacturer, and operating system version.
+  final SystemManager _systemManager = const SystemManager();
 
   /// The API client for the AppFit dashboard.
   late ApiClient _apiClient;
@@ -97,13 +103,7 @@ class EventDigester {
   Future<MetricEvent> _createRawEvent(AppFitEvent event) async {
     final userId = await _appFitCache.getUserId();
     final anonymousId = await _appFitCache.getAnonymousId();
-
-    // We are going to use the system properties to add the origin of the event.
-    // This will need to be reworked once we have the SDK actually
-    // fetching system properties
-    final systemProperties = {
-      'origin': 'flutter',
-    };
+    final systemProperties = await _systemManager.current();
 
     return MetricEvent(
       occurredAt: event.occurredAt,

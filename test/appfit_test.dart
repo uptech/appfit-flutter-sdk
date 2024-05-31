@@ -4,10 +4,10 @@ import 'package:appfit/appfit.dart';
 import 'package:appfit/networking/event_digester.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'mocks/device_info_mocks.dart';
 import 'mocks/path_provider_mocks.dart';
 
 void main() {
@@ -21,6 +21,7 @@ void main() {
       await SharedPreferences.getInstance();
 
       PathProviderPlatform.instance = MockPathProviderPlatform();
+      mockDeviceInfo();
     });
 
     test('initialization', () {
@@ -62,10 +63,6 @@ void main() {
       await SharedPreferences.getInstance();
 
       PathProviderPlatform.instance = MockPathProviderPlatform();
-      // This is required because we manually register the Linux path provider when on the Linux platform.
-      // Will be removed when automatic registration of dart plugins is implemented.
-      // See this issue https://github.com/flutter/flutter/issues/52267 for details
-      disablePathProviderPlatformOverride = true;
 
       // The base 64 key is 'default:instance'
       AppFit.createInstance(
