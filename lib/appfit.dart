@@ -1,5 +1,6 @@
 import 'package:appfit/appfit_configuration.dart';
 import 'package:appfit/appfit_event.dart';
+import 'package:appfit/errors/app_it_error.dart';
 import 'package:appfit/networking/event_digester.dart';
 import 'package:flutter/foundation.dart';
 
@@ -53,6 +54,11 @@ class AppFit {
     String instanceName = "default",
   }) {
     _instances ??= <String, AppFit>{};
+    if (_instances![instanceName] == null) {
+      throw InstanceNotFound(
+        "Instance with name $instanceName was not found. Call create createInstance() before calling this method.",
+      );
+    }
     return _instances![instanceName]!;
   }
 
