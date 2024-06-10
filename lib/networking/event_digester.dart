@@ -7,10 +7,14 @@ import 'package:appfit/networking/api_client.dart';
 import 'package:appfit/networking/managers/system_manager.dart';
 import 'package:appfit/networking/metric_event.dart';
 import 'package:appfit/networking/metric_payload.dart';
+import 'package:appfit/networking/properties/event_system_properties.dart';
 
 class EventDigester {
   /// The API key for the project.
   final String apiKey;
+
+  /// The version of the app.
+  final String? appVersion;
 
   /// The cache for the events.
   final EventCache _cache = EventCache();
@@ -29,6 +33,7 @@ class EventDigester {
   /// Initializes the [EventDigester] with the provided [apiKey] and [projectId].
   EventDigester({
     required this.apiKey,
+    this.appVersion,
   }) {
     _apiClient = ApiClient(apiKey: apiKey);
 
@@ -103,7 +108,11 @@ class EventDigester {
   Future<MetricEvent> _createRawEvent(AppFitEvent event) async {
     final userId = await _appFitCache.getUserId();
     final anonymousId = await _appFitCache.getAnonymousId();
-    final systemProperties = await _systemManager.current();
+    EventSystemProperties systemProperties = await _systemManager.current();
+
+    if (appVersion != null) {
+      systemProperties = systemProperties.copyWith(appVersion: appVersion);
+    }
 
     return MetricEvent(
       occurredAt: event.occurredAt,

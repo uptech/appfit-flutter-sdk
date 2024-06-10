@@ -31,6 +31,21 @@ class EventSystemProperties {
     this.operatingSystem,
   });
 
+  /// Creates a new instance of [EventSystemProperties] with the provided mutated properties
+  EventSystemProperties copyWith({
+    String? appVersion,
+    DeviceProperties? device,
+    BrowserProperties? browser,
+    OperatingSystemProperties? operatingSystem,
+  }) {
+    return EventSystemProperties(
+      appVersion: appVersion ?? this.appVersion,
+      device: device ?? this.device,
+      browser: browser ?? this.browser,
+      operatingSystem: operatingSystem ?? this.operatingSystem,
+    );
+  }
+
   /// Converts the [EventSystemProperties] to a JSON object.
   /// This is used to convert the object to a JSON object that can be sent to the server.
   Map<String, dynamic> toJson() {

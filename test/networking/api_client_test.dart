@@ -86,7 +86,6 @@ void main() {
           systemProperties: await systemManager.current(),
         ),
       );
-      print("Event: ${event.toJson()}");
       final client = ApiClient(
         apiKey:
             'YjZiODczMjItNTAwNC00YTg5LTg2ZTUtOWI3OWE5ZDA5Mjc3OmQ3OGMyMjVhLTc1YzQtNDY5ZC1iZTk5LTY3ZTZiMWM1ZDI5YQ==',
