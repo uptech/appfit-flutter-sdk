@@ -53,6 +53,7 @@ class MetricEvent {
   /// Converts the [MetricEvent] to a JSON object.
   Map<String, dynamic> toJson() {
     return {
+      'version': "2",
       'eventSource': 'appfit',
       'occurredAt': occurredAt.toIso8601String(),
       'payload': payload.toJson(),

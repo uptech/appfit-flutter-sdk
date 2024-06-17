@@ -77,7 +77,6 @@ class MetricPayload {
   /// Converts the [MetricPayload] to a JSON object.
   Map<String, dynamic> toJson() {
     return {
-      'version': "2",
       'sourceEventId': sourceEventId,
       'eventName': eventName,
       'origin': 'flutter',
