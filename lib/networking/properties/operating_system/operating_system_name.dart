@@ -1,5 +1,5 @@
 import 'package:appfit/networking/properties/operating_system/operating_system_name_detector.dart'
-    if (dart.library.html) 'package:appfit/networking/properties/operating_system_detector_web.dart';
+    if (dart.library.html) 'package:appfit/networking/properties/operating_system/operating_system_name_detector_web.dart';
 
 enum OperatingSystemName {
   android('Android'),
