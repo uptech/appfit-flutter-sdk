@@ -8,6 +8,7 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'mocks/device_info_mocks.dart';
+import 'mocks/mock_event_digester.dart';
 import 'mocks/path_provider_mocks.dart';
 
 void main() {
@@ -27,6 +28,7 @@ void main() {
     test('initialization', () {
       final appfit = AppFit(
         configuration: AppFitConfiguration(apiKey: apiKey),
+        eventDigester: EventDigesterStub(),
       );
 
       expect(appfit.configuration.apiKey, apiKey);
@@ -35,6 +37,7 @@ void main() {
     test('event tracking', () {
       final appfit = AppFit(
         configuration: AppFitConfiguration(apiKey: apiKey),
+        eventDigester: EventDigesterStub(),
       );
 
       appfit.trackEvent('test');
@@ -43,6 +46,7 @@ void main() {
     test('should identify a valid userId', () {
       final appfit = AppFit(
         configuration: AppFitConfiguration(apiKey: apiKey),
+        eventDigester: EventDigesterStub(),
       );
 
       appfit.identifyUser('test');
@@ -51,6 +55,7 @@ void main() {
     test('should identify a null userId', () {
       final appfit = AppFit(
         configuration: AppFitConfiguration(apiKey: apiKey),
+        eventDigester: EventDigesterStub(),
       );
 
       appfit.identifyUser(null);
@@ -67,12 +72,14 @@ void main() {
       // The base 64 key is 'default:instance'
       AppFit.createInstance(
         configuration: AppFitConfiguration(apiKey: 'ZGVmYXVsdDppbnN0YW5jZQ=='),
+        eventDigester: EventDigesterStub(),
         instanceName: 'default',
       );
 
       // The base 64 key is 'one:instance'
       AppFit.createInstance(
         configuration: AppFitConfiguration(apiKey: 'b25lOmluc3RhbmNl'),
+        eventDigester: EventDigesterStub(),
         instanceName: 'one',
       );
     });

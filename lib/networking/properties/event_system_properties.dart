@@ -9,6 +9,9 @@ class EventSystemProperties {
   /// The version of the parent bundle
   final String? appVersion;
 
+  /// The IP address of the device
+  final String? ipAddress;
+
   /// All of the device related properties
   /// These include anything that is specific to the physical device
   /// such as model, operating system version, platform, etc
@@ -26,6 +29,7 @@ class EventSystemProperties {
   /// Creates a new instance of [EventSystemProperties].
   const EventSystemProperties({
     this.appVersion,
+    this.ipAddress,
     this.device,
     this.browser,
     this.operatingSystem,
@@ -34,6 +38,7 @@ class EventSystemProperties {
   /// Creates a new instance of [EventSystemProperties] with the provided mutated properties
   EventSystemProperties copyWith({
     String? appVersion,
+    String? ipAddress,
     DeviceProperties? device,
     BrowserProperties? browser,
     OperatingSystemProperties? operatingSystem,
@@ -51,6 +56,7 @@ class EventSystemProperties {
   Map<String, dynamic> toJson() {
     return {
       'appVersion': appVersion,
+      'ipAddress': ipAddress,
       'device': device?.toJson(),
       'os': operatingSystem?.toJson(),
     };
@@ -61,6 +67,7 @@ class EventSystemProperties {
   factory EventSystemProperties.fromJson(Map<String, dynamic> json) {
     return EventSystemProperties(
       appVersion: json['appVersion'],
+      ipAddress: json['ipAddress'],
       device: DeviceProperties.fromJson(json['device']),
       operatingSystem: OperatingSystemProperties.fromJson(json['os']),
     );

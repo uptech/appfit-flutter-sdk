@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:appfit/appfit.dart';
 import 'package:appfit/caching/appfit_cache.dart';
 import 'package:appfit/caching/event_cache.dart';
+import 'package:appfit/caching/ip_address.dart';
 import 'package:appfit/networking/api_client.dart';
 import 'package:appfit/networking/managers/system_manager.dart';
 import 'package:appfit/networking/metric_event.dart';
@@ -15,6 +16,9 @@ class EventDigester {
 
   /// The version of the app.
   final String? appVersion;
+
+  /// Enable IP Tracking
+  final bool enableIpTracking;
 
   /// The cache for the events.
   final EventCache _cache = EventCache();
@@ -30,10 +34,17 @@ class EventDigester {
   /// The API client for the AppFit dashboard.
   late ApiClient _apiClient;
 
+  /// The IP address for the device.
+  IpAddress _ipAddress = IpAddress(
+    address: null,
+    lastUpdatedAt: DateTime.now(),
+  );
+
   /// Initializes the [EventDigester] with the provided [apiKey] and [projectId].
   EventDigester({
     required this.apiKey,
     this.appVersion,
+    this.enableIpTracking = true,
   }) {
     _apiClient = ApiClient(apiKey: apiKey);
 
@@ -112,6 +123,15 @@ class EventDigester {
 
     if (appVersion != null) {
       systemProperties = systemProperties.copyWith(appVersion: appVersion);
+    }
+
+    if (enableIpTracking) {
+      if (_ipAddress.isExpired) {
+        _ipAddress = await IpAddress.fetchIpAddress();
+      }
+      systemProperties = systemProperties.copyWith(
+        ipAddress: _ipAddress.address,
+      );
     }
 
     return MetricEvent(

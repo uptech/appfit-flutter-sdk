@@ -32,12 +32,13 @@ class AppFit {
   /// {@category Initialization}
   static AppFit createInstance({
     required AppFitConfiguration configuration,
+    EventDigester? eventDigester,
     String instanceName = "default",
   }) {
     _instances ??= <String, AppFit>{};
     return _instances!.putIfAbsent(
       instanceName,
-      () => AppFit(configuration: configuration),
+      () => AppFit(configuration: configuration, eventDigester: eventDigester),
     );
   }
 
@@ -77,8 +78,12 @@ class AppFit {
   AppFit({
     required this.configuration,
     EventDigester? eventDigester,
-  }) : eventDigester =
-            eventDigester ?? EventDigester(apiKey: configuration.apiKey) {
+  }) : eventDigester = eventDigester ??
+            EventDigester(
+              apiKey: configuration.apiKey,
+              appVersion: configuration.appVersion,
+              enableIpTracking: configuration.enableIpTracking,
+            ) {
     // Once we boot up the AppFit SDK, we need to generate an anonymousId
     // and set the userId to null. This is to ensure that we have the most
     // up-to-date information for the events.

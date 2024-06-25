@@ -14,6 +14,7 @@ extension MockSystemManagerExt on MockSystemManager {
       (_) => Future.value(
         const EventSystemProperties(
           appVersion: '1.0.0',
+          ipAddress: '98.234.193.126',
           device: DeviceProperties(
             manufacturer: 'Apple',
             model: 'MacBookPro18,4',
@@ -33,6 +34,7 @@ extension MockSystemManagerExt on MockSystemManager {
       (_) => Future.value(
         const EventSystemProperties(
           appVersion: '1.0.0',
+          ipAddress: '98.234.193.126',
           device: DeviceProperties(
             manufacturer: null,
             model: null,
