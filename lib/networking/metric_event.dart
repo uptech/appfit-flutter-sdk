@@ -55,7 +55,7 @@ class MetricEvent {
     return {
       'version': "2",
       'eventSource': 'appfit',
-      'occurredAt': occurredAt.toIso8601String(),
+      'occurredAt': occurredAt.toUtc().toIso8601String(),
       'payload': payload.toJson(),
     };
   }

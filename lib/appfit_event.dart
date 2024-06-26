@@ -45,7 +45,7 @@ class AppFitEvent {
       'id': id,
       'name': name,
       'properties': properties,
-      'occurredAt': occurredAt.toIso8601String(),
+      'occurredAt': occurredAt.toUtc().toIso8601String(),
     };
   }
 }
