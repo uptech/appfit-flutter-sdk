@@ -1,6 +1,6 @@
 name: appfit
 description: "AppFit analytics for Flutter. AppFit allows you to quickly, and easily track your analytic events from your apps."
-version: 1.0.2
+version: 1.1.0
 homepage: https://appfit.io
 repository: https://github.com/uptech/appfit-flutter-sdk
 

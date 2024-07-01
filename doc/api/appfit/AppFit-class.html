@@ -11,7 +11,7 @@
   
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   
   <link rel="stylesheet" href="../static-assets/github.css?v1">
   <link rel="stylesheet" href="../static-assets/styles.css?v1">
@@ -36,26 +36,26 @@
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
-  <div class="toggle" id="theme-button">
+  <div class="toggle" id="theme-button" title="Toggle brightness">
     <label for="theme">
       <input type="checkbox" id="theme" value="light-theme">
       <span id="dark-theme-button" class="material-symbols-outlined">
-        brightness_4
+        dark_mode
       </span>
       <span id="light-theme-button" class="material-symbols-outlined">
-        brightness_5
+        light_mode
       </span>
     </label>
   </div>
 </header>
 <main>
 
-  <div
-      id="dartdoc-main-content"
-      class="main-content"
-      data-above-sidebar="appfit&#47;appfit-library-sidebar.html"
-      data-below-sidebar="appfit&#47;AppFit-class-sidebar.html">
-      <div>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="appfit&#47;appfit-library-sidebar.html"
+    data-below-sidebar="appfit&#47;AppFit-class-sidebar.html">
+    <div>
 <h1><span class="kind-class">AppFit</span> class 
  
 </h1></div>
@@ -86,14 +86,16 @@ appfit.trackEvent('event');
         </dd>
     </dl>
   </section>
-
-    <section class="summary offset-anchor" id="instance-properties">
-      <h2>Properties</h2>
-
-      <dl class="properties">
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
         <dt id="configuration" class="property">
   <span class="name"><a href="../appfit/AppFit/configuration.html">configuration</a></span>
-  <span class="signature">&#8594; <a href="../appfit_configuration/AppFitConfiguration-class.html">AppFitConfiguration</a></span> 
+  <span class="signature">&#8594; <a href="../appfit_configuration/AppFitConfiguration-class.html">AppFitConfiguration</a></span>
+  
 
 </dt>
 <dd>
@@ -104,7 +106,8 @@ appfit.trackEvent('event');
 
         <dt id="eventDigester" class="property">
   <span class="name"><a href="../appfit/AppFit/eventDigester.html">eventDigester</a></span>
-  <span class="signature">&#8594; EventDigester</span> 
+  <span class="signature">&#8594; EventDigester</span>
+  
 
 </dt>
 <dd>
@@ -115,7 +118,8 @@ appfit.trackEvent('event');
 
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  
 
 </dt>
 <dd class="inherited">
@@ -126,7 +130,8 @@ appfit.trackEvent('event');
 
         <dt id="runtimeType" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span> 
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span>
+  
 
 </dt>
 <dd class="inherited">
@@ -135,9 +140,8 @@ appfit.trackEvent('event');
 
 </dd>
 
-      </dl>
-    </section>
-
+    </dl>
+  </section>
     
   <section
       class="summary offset-anchor"
@@ -238,7 +242,7 @@ appfit.trackEvent('event');
     <h2>Static Methods</h2>
     <dl class="callables">
         <dt id="createInstance" class="callable">
-  <span class="name"><a href="../appfit/AppFit/createInstance.html">createInstance</a></span><span class="signature">(<wbr><span class="parameter" id="createInstance-param-configuration">{<span>required</span> <span class="type-annotation"><a href="../appfit_configuration/AppFitConfiguration-class.html">AppFitConfiguration</a></span> <span class="parameter-name">configuration</span>, </span><span class="parameter" id="createInstance-param-instanceName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">instanceName</span> = <span class="default-value">&quot;default&quot;</span>}</span>)
+  <span class="name"><a href="../appfit/AppFit/createInstance.html">createInstance</a></span><span class="signature">(<wbr><span class="parameter" id="createInstance-param-configuration">{<span>required</span> <span class="type-annotation"><a href="../appfit_configuration/AppFitConfiguration-class.html">AppFitConfiguration</a></span> <span class="parameter-name">configuration</span>, </span><span class="parameter" id="createInstance-param-eventDigester"><span class="type-annotation">EventDigester?</span> <span class="parameter-name">eventDigester</span>, </span><span class="parameter" id="createInstance-param-instanceName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">instanceName</span> = <span class="default-value">&quot;default&quot;</span>}</span>)
     <span class="returntype parameter">&#8594; <a href="../appfit/AppFit-class.html">AppFit</a></span>
   </span>
   
@@ -300,7 +304,7 @@ If no <code>instanceName</code> is provided, the default instance will be return
 <footer>
   <span class="no-break">
     appfit
-      1.0.1
+      1.1.0
   </span>
 
   
