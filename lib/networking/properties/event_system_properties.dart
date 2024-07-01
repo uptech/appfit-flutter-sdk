@@ -45,6 +45,7 @@ class EventSystemProperties {
   }) {
     return EventSystemProperties(
       appVersion: appVersion ?? this.appVersion,
+      ipAddress: ipAddress ?? this.ipAddress,
       device: device ?? this.device,
       browser: browser ?? this.browser,
       operatingSystem: operatingSystem ?? this.operatingSystem,
